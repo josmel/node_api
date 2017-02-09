@@ -1,0 +1,15 @@
+{
+  "name": "node_example",
+  "version": "1.0.0",
+  "description": "mi ejemplo de node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "josmel",
+  "license": "ISC",
+   "dependencies" : {
+    "express" : "3.2.6",
+    "mongoose" : "3.6.11"
+  }
+}
