@@ -6,21 +6,29 @@ module.exports = function(app) {
   //GET - Return all tvshows in the DB
   findAllTVShows = function(req, res) {
   	TVShow.find(function(err, tvshows) {
-  		if(!err) {
-        console.log('GET /tvshows')
-  			res.send(tvshows);
-  		} else {
-  			console.log('ERROR: ' + err);
-  		}
+		try {
+			if(!err) {
+				console.log('GET /tvshows')
+				res.send(response(200,tvshows,null));
+			} else {
+				res.send(response(500,null));
+				//console.log('ERROR: ' + err);
+			}
+		}catch (err){
+			res.send(response(500,null,err));
+		}
+
   	});
   };
+
+
 
   //GET - Return a TVShow with specified ID
   findById = function(req, res) {
   	TVShow.findById(req.params.id, function(err, tvshow) {
   		if(!err) {
         console.log('GET /tvshow/' + req.params.id);
-  			res.send(tvshow);
+  			res.send({success: true });
   		} else {
   			console.log('ERROR: ' + err);
   		}
@@ -39,7 +47,7 @@ module.exports = function(app) {
   		poster:   req.body.poster,
   		seasons:  req.body.seasons,
   		genre:    req.body.genre,
-  		summary:  req.body.summary  
+  		summary:  req.body.summary
   	});
 
   	tvshow.save(function(err) {
@@ -94,5 +102,22 @@ module.exports = function(app) {
   app.post('/tvshow', addTVShow);
   app.put('/tvshow/:id', updateTVShow);
   app.delete('/tvshow/:id', deleteTVShow);
+
+
+
+	function response(status, value,msg) {
+		console.log(status)
+		if (status ==200) {
+			return {status:1,msg:msg,data:value,data_error:[]};
+		}else{
+			return {status:0,msg:msg,data:null,data_error:[]};
+		}
+
+	}
+
+
+
+
+
 
 }
